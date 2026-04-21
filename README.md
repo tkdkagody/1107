@@ -1,6 +1,6 @@
-# 결혼 준비 프로젝트 보드 (Next.js + Supabase)
+# 프로젝트 보드 (Next.js + Supabase)
 
-결혼 준비 항목을 우선순위/담당/목표 시점/메모/예상비용으로 관리하는 웹앱입니다.
+항목을 우선순위/담당/목표 시점/메모/예상비용으로 관리하는 웹앱입니다.
 데이터는 브라우저 `localStorage`가 아니라 Supabase 테이블에 저장됩니다.
 
 ## 기능
@@ -10,7 +10,7 @@
 - 완료 체크
 - 우선순위/담당/상태/검색 필터
 - 예상 총비용 합계 표시
-- Supabase 실시간 DB 저장
+- Supabase DB 저장 (기본 항목도 SQL에서 직접 시드)
 
 ## 1) 환경 변수 설정
 
@@ -24,12 +24,15 @@ cp .env.local.example .env.local
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT_ID.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=YOUR_SUPABASE_PUBLISHABLE_KEY
+# Legacy key도 가능:
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 ```
 
 ## 2) Supabase 테이블 생성
 
 Supabase SQL Editor에서 [schema.sql](/Users/dahee/Desktop/11월7일13시/supabase/schema.sql) 내용을 실행하세요.
+이때 기본 준비 항목도 함께 DB에 삽입됩니다. (테이블이 비어 있을 때만 1회)
 
 ## 3) 실행
 

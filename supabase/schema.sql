@@ -12,6 +12,10 @@ create table if not exists public.wedding_tasks (
   updated_at timestamptz not null default now()
 );
 
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on table public.wedding_tasks to anon, authenticated;
+grant usage, select on sequence public.wedding_tasks_id_seq to anon, authenticated;
+
 create or replace function public.handle_updated_at()
 returns trigger
 language plpgsql
@@ -54,3 +58,28 @@ create policy "public delete wedding tasks"
 on public.wedding_tasks
 for delete
 using (true);
+
+insert into public.wedding_tasks (
+  priority, title, owner, target, needed_info, memo, estimated_cost, done
+)
+select *
+from (
+  values
+    ('P1', '야외 스냅 촬영 예약', '', '예식 5~7개월 전', '촬영 가능한 날짜 후보', '예복/드레스, 메이크업, 헤어 포함 여부 확인', 200, false),
+    ('P1', '플래너', '', '예식 6~7개월 전', '희망 예산, 진행 범위', '견적 비교, 계약 조건 확인', 250, false),
+    ('P1', '본식 스냅 예약', '', '예식 5~7개월 전', '예식장 정보, 희망 촬영 스타일', '원본 제공, 보정, 앨범 포함 여부 확인', 150, false),
+    ('P1', '스드메 예약', '다희', '예식 6~7개월 전', '희망 일정', '스튜디오/드레스/메이크업 구성 확정', 0, false),
+    ('P2', '축가', '성', '예식 3~4개월 전', '곡 후보', 'MR 준비, 리허설 일정 확인', 20, false),
+    ('P1', '항공권 예약', '', '예식 6개월 전', '휴가 일정', '수하물, 환불 규정 확인', 600, false),
+    ('P2', '한복 업체 예약', '', '예식 3~5개월 전', '혼주 인원, 사이즈', '대여/맞춤 선택, 제작기간 확인', null, false),
+    ('P2', '반지 구매', '', '예식 4~6개월 전', '사이즈, 디자인', '각인, 제작기간 확인', null, false),
+    ('P2', '혼주 메이크업', '', '예식 2~3개월 전', '양가 인원, 희망 시간', '양가 각각 예약 권장', 80, false),
+    ('P3', '관리', '', '예식 1~2개월 전', '', '마사지/피부과 등 일정 무리 없이', null, false),
+    ('P3', '미용', '', '예식 1개월 전', '', '커트/염색은 일정 여유 두기', null, false),
+    ('P1', '신혼여행 (항공권 제외)', '', '예식 6개월 전', '숙소/투어 일정', '취소 규정, 이동 동선 확인', 600, false)
+) as seed(
+  priority, title, owner, target, needed_info, memo, estimated_cost, done
+)
+where not exists (
+  select 1 from public.wedding_tasks
+);

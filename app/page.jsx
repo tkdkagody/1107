@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { DEFAULT_TASKS } from "../lib/defaultTasks";
 import { isSupabaseConfigured, supabase } from "../lib/supabase";
 
 const PRIORITY_ORDER = { P1: 1, P2: 2, P3: 3 };
@@ -90,31 +89,7 @@ export default function Page() {
       return;
     }
 
-    if (!data || data.length === 0) {
-      const seedRows = DEFAULT_TASKS.map((task) => ({
-        priority: task.priority,
-        title: task.title,
-        owner: task.owner,
-        target: task.target,
-        needed_info: task.neededInfo,
-        memo: task.memo,
-        estimated_cost: task.estimatedCost,
-        done: task.done,
-      }));
-
-      const { data: seeded, error: seedError } = await supabase
-        .from("wedding_tasks")
-        .insert(seedRows)
-        .select("*");
-
-      if (seedError) {
-        setErrorMessage(`초기 데이터를 넣지 못했습니다: ${seedError.message}`);
-      } else {
-        setTasks(sortTasks((seeded ?? []).map(normalizeTask)));
-      }
-    } else {
-      setTasks(sortTasks(data.map(normalizeTask)));
-    }
+    setTasks(sortTasks((data ?? []).map(normalizeTask)));
 
     setLoading(false);
   }
