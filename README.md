@@ -43,6 +43,13 @@ npm run dev
 
 브라우저에서 `http://localhost:3000` 접속.
 
+## Netlify 배포
+
+- 이 저장소에는 [netlify.toml](/Users/dahee/Desktop/11월7일13시/netlify.toml)이 포함되어 있어 빌드 설정을 고정합니다.
+- 대시보드 환경 변수에 아래 2개를 추가하세요.
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (또는 `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
+
 ## 참고
 
 - 현재 정책은 빠른 테스트를 위해 공개 접근(anon key + RLS policy `true`) 형태입니다.
