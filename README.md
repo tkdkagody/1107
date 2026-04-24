@@ -45,7 +45,8 @@ npm run dev
 
 ## Netlify 배포
 
-- 이 저장소에는 [netlify.toml](/Users/dahee/Desktop/11월7일13시/netlify.toml)이 포함되어 있어 빌드 설정을 고정합니다.
+- 이 저장소는 `next.config.js`의 `output: "export"`를 사용해 정적 사이트(`out`)로 배포합니다.
+- [netlify.toml](/Users/dahee/Desktop/11월7일13시/netlify.toml)에서 `publish = "out"`으로 고정되어 있습니다.
 - 대시보드 환경 변수에 아래 2개를 추가하세요.
   - `NEXT_PUBLIC_SUPABASE_URL`
   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (또는 `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
@@ -54,4 +55,3 @@ npm run dev
 
 - 현재 정책은 빠른 테스트를 위해 공개 접근(anon key + RLS policy `true`) 형태입니다.
 - 실제 운영에서는 사용자 인증(Auth) 기반으로 RLS 정책을 사용자별로 제한하는 것을 권장합니다.
-# 1107
